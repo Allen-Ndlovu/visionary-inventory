@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+*.sqlite3
+
+# SQLAlchemy / Alembic
+alembic/versions/
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+
+# Node / React
+node_modules/
+npm-debug.log*
+yarn-error.log*
+build/
+dist/
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
+
