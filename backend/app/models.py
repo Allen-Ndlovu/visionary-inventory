@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Numeric, Text, Enum
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Numeric, Text, Enum, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .database import Base
@@ -30,7 +30,7 @@ class User(Base):
     email         = Column(String(100), unique=True, nullable=False)
     password_hash = Column(Text, nullable=False)
     role          = Column(String(20), nullable=False)
-    is_active     = Column(Integer, default=1)
+    is_active     = Column(Boolean, default=True)
     created_at    = Column(DateTime, default=datetime.utcnow)
 
     business = relationship("Business", back_populates="users")
@@ -80,12 +80,13 @@ class Supplier(Base):
 
 class Customer(Base):
     __tablename__ = "customers"
-    id          = Column(Integer, primary_key=True, index=True)
-    business_id = Column(Integer, ForeignKey("businesses.id", ondelete="CASCADE"))
-    name        = Column(String(100), nullable=False)
-    email       = Column(String(100))
-    phone       = Column(String(20))
-    address     = Column(Text)
+    id            = Column(Integer, primary_key=True, index=True)
+    business_id   = Column(Integer, ForeignKey("businesses.id", ondelete="CASCADE"))
+    name          = Column(String(100), nullable=False)
+    contact_name  = Column(String(100))  # <-- Add this
+    email         = Column(String(100))
+    phone         = Column(String(20))
+    address       = Column(Text)
 
     business = relationship("Business", back_populates="customers")
     sales    = relationship("Sale", back_populates="customer")
