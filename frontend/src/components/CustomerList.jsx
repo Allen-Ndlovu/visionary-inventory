@@ -1,28 +1,43 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
 
-export default function CustomerList() {
-  const { data, loading, error } = useFetch('customers');
-
-  if (loading) return <p>Loading...</p>;
-  if (error)   return <p>Error loading customers</p>;
+const CustomerList = () => {
+  const customers = useFetch('/customers');
 
   return (
-    <div className="list-page">
+    <div className="content">
       <h2>Customers</h2>
-      <button className="btn">Add Customer</button>
-      <table>
-        <thead><tr><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
-        <tbody>
-          {data.map(c => (
-            <tr key={c.id}>
-              <td>{c.name}</td>
-              <td>{c.email}</td>
-              <td>{c.phone}</td>
+      <button className="btn btn-primary">New Customer</button>
+      <div className="table-responsive" style={{ marginTop: '1rem' }}>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Contact</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Business ID</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {customers.map(c => (
+              <tr key={c.id}>
+                <td>{c.id}</td>
+                <td>{c.name}</td>
+                <td>{c.contact_name}</td>
+                <td>{c.phone}</td>
+                <td>{c.email}</td>
+                <td>{c.address}</td>
+                <td>{c.business_id}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
-}
+};
+
+export default CustomerList;

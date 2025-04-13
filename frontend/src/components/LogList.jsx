@@ -1,28 +1,41 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
 
-export default function LogList() {
-  const { data, loading, error } = useFetch('logs');
-
-  if (loading) return <p>Loading...</p>;
-  if (error)   return <p>Error loading logs</p>;
+const LogList = () => {
+  const logs = useFetch('/logs');
 
   return (
-    <div className="list-page">
-      <h2>Activity Logs</h2>
-      <table>
-        <thead><tr><th>User</th><th>Action</th><th>Table</th><th>Row</th></tr></thead>
-        <tbody>
-          {data.map(l => (
-            <tr key={l.id}>
-              <td>{l.user_id}</td>
-              <td>{l.action}</td>
-              <td>{l.table_affected}</td>
-              <td>{l.row_id}</td>
+    <div className="content">
+      <h2>Logs</h2>
+      <button className="btn btn-primary">New Log Entry</button>
+      <div className="table-responsive" style={{ marginTop: '1rem' }}>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User ID</th>
+              <th>Action</th>
+              <th>Table</th>
+              <th>Row ID</th>
+              <th>Timestamp</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {logs.map(l => (
+              <tr key={l.id}>
+                <td>{l.id}</td>
+                <td>{l.user_id}</td>
+                <td>{l.action}</td>
+                <td>{l.table_affected}</td>
+                <td>{l.row_id}</td>
+                <td>{new Date(l.timestamp).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
-}
+};
+
+export default LogList;

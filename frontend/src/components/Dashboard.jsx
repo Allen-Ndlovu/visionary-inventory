@@ -1,26 +1,50 @@
-import React from 'react';
-import useFetch from '../hooks/useFetch';
+import React, { useEffect, useState } from 'react';
+import api from '../services/api';
 
-export default function Dashboard() {
-  const { data: products } = useFetch('products');
-  const { data: inventory } = useFetch('inventory');
+const Dashboard = () => {
+  const [stats, setStats] = useState({
+    products:0, lowStock:0, sales:0, purchases:0
+  });
 
-  const lowStock = inventory.filter(i => i.quantity <= i.min_stock_level);
+  useEffect(() => {
+    Promise.all([
+      api.get('/products'),
+      api.get('/inventory'),
+      api.get('/sales'),
+      api.get('/purchases')
+    ]).then(([p, inv, s, pc]) => {
+      setStats({
+        products: p.data.length,
+        lowStock: inv.data.filter(i => i.quantity <= i.min_stock_level).length,
+        sales: s.data.length,
+        purchases: pc.data.length
+      });
+    });
+  }, []);
 
   return (
-    <div className="dashboard">
-      <div className="card">
-        <h3>Total Products</h3>
-        <p>{products.length}</p>
-      </div>
-      <div className="card">
-        <h3>Total Inventory Items</h3>
-        <p>{inventory.length}</p>
-      </div>
-      <div className="card warning">
-        <h3>Low Stock Alerts</h3>
-        <p>{lowStock.length}</p>
+    <div className="content">
+      <h2>Dashboard</h2>
+      <div className="card-container">
+        <div className="card">
+          <h3>Total Products</h3>
+          <p>{stats.products}</p>
+        </div>
+        <div className="card">
+          <h3>Low‑Stock Items</h3>
+          <p>{stats.lowStock}</p>
+        </div>
+        <div className="card">
+          <h3>Sales</h3>
+          <p>{stats.sales}</p>
+        </div>
+        <div className="card">
+          <h3>Purchases</h3>
+          <p>{stats.purchases}</p>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Dashboard;
