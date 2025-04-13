@@ -4,7 +4,8 @@ from backend.app import crud, schemas, dependencies
 
 router = APIRouter()
 
-@router.get("/", response_model=list[schemas.Product])
+@router.get("", include_in_schema=False)  # handles `/products`
+@router.get("/")
 def read_products(skip: int = 0, limit: int = 100, db: Session = Depends(dependencies.get_db)):
     return crud.list_products(db, skip, limit)
 

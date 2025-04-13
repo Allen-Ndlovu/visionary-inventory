@@ -7,14 +7,20 @@ const ProductDetail = lazy(() => import("./components/ProductDetail"));
 export default function App() {
   return (
     <BrowserRouter>
-      <nav><Link to="/">Products</Link></nav>
-      <Suspense fallback={<p>Loading...</p>}>
-        <Routes>
-          <Route path="/" element={<ProductList />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
-        </Routes>
-      </Suspense>
+      <header>
+        <h1><Link to="/">Visionary Inventory</Link></h1>
+      </header>
+      <main className="container">
+        <Suspense fallback={<p>Loading...</p>}>
+          <Routes>
+            <Route path="/" element={<ProductList />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+          </Routes>
+        </Suspense>
+      </main>
+      <footer>
+        © {new Date().getFullYear()} Visionary Inventory
+      </footer>
     </BrowserRouter>
   );
 }
-

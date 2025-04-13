@@ -1,0 +1,30 @@
+.back-button {
+  display: inline-block;
+  margin-bottom: 20px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background-color: #115293;
+}
+
+.product-detail-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.product-detail-card h2 {
+  margin-bottom: 15px;
+}
+
+.product-detail-card p {
+  margin: 8px 0;
+}
