@@ -24,23 +24,27 @@ const Dashboard = () => {
 
   return (
     <div className="content">
-      <h2>Dashboard</h2>
-      <div className="card-container">
-        <div className="card">
-          <h3>Total Products</h3>
-          <p>{stats.products}</p>
+      <div className="page-container">
+        <div className="page-header">
+          <h2>Dashboard</h2>
         </div>
-        <div className="card">
-          <h3>Low‑Stock Items</h3>
-          <p>{stats.lowStock}</p>
-        </div>
-        <div className="card">
-          <h3>Sales</h3>
-          <p>{stats.sales}</p>
-        </div>
-        <div className="card">
-          <h3>Purchases</h3>
-          <p>{stats.purchases}</p>
+        <div className="card-container">
+          <div className="card">
+            <h3>Total Products</h3>
+            <p>{stats.products}</p>
+          </div>
+          <div className="card">
+            <h3>Low‑Stock Items</h3>
+            <p>{stats.lowStock}</p>
+          </div>
+          <div className="card">
+            <h3>Sales</h3>
+            <p>{stats.sales}</p>
+          </div>
+          <div className="card">
+            <h3>Purchases</h3>
+            <p>{stats.purchases}</p>
+          </div>
         </div>
       </div>
     </div>

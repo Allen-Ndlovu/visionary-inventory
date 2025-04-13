@@ -7,7 +7,7 @@ body {
   line-height:1.5;
 }
 
-/* Layout */
+/* App Layout */
 .app { display:flex; height:100vh; overflow:hidden; }
 .main { flex:1; overflow-y:auto; padding:var(--space-md); }
 
@@ -45,18 +45,28 @@ body {
   background: var(--color-secondary);
   color: #fff;
 }
-
-/* Responsive hide sidebar */
 @media(max-width: 768px) {
   .sidebar { display:none; }
 }
 
-/* Content Wrappers */
-.content h2 {
-  font-family: var(--font-heading);
-  font-size: var(--fs-lg);
+/* Page Container */
+.page-container {
+  background: var(--color-surface);
+  padding: var(--space-lg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.page-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   margin-bottom: var(--space-md);
 }
+.page-header h2 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+}
+.page-body { }
 
 /* Cards */
 .card-container {
@@ -123,4 +133,31 @@ body {
 .btn-secondary:hover {
   background:#c0392b;
   transform: translateY(-2px);
+}
+
+/* Sidebar open/closed */
+.sidebar {
+  transform: translateX(0);
+  transition: transform var(--transition);
+}
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+@media (min-width: 768px) {
+  /* always show on desktop */
+  .sidebar { transform: none !important; }
+}
+
+/* Navbar icon button */
+.btn-icon {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: var(--icon-size);
+  cursor: pointer;
+  margin-right: var(--space-md);
+  transition: transform var(--transition);
+}
+.btn-icon:hover {
+  transform: scale(1.1);
 }

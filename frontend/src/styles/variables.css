@@ -34,3 +34,8 @@
   /* Transitions */
   --transition:     0.3s ease;
 }
+
+:root {
+  /* icon button sizing */
+  --icon-size: 1.5rem;
+}
