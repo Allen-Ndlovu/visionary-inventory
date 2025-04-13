@@ -1,9 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:8000",
-  timeout: 5000,
+const api = axios.create({
+  baseURL: 'http://localhost:8000',
 });
 
-export const fetchProducts = () => API.get("/products");
-export const fetchProduct  = id => API.get(`/products/${id}`);
+export const getList = (resource) => api.get(`/${resource}`).then(res => res.data);
+export const getItem = (resource, id) => api.get(`/${resource}/${id}`).then(res => res.data);
+export const createItem = (resource, payload) => api.post(`/${resource}`, payload).then(res => res.data);
+
+export default api;

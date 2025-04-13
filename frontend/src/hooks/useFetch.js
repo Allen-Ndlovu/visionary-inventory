@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { getList } from '../services/api';
 
-export function useFetch(fetcher, args = []) {
-  const [data, setData]       = useState(null);
+export default function useFetch(resource) {
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    let mounted = true;
-    fetcher(...args)
-      .then(res => mounted && setData(res.data))
-      .catch(err => mounted && setError(err))
-      .finally(() => mounted && setLoading(false));
-    return () => { mounted = false; };
-  }, [fetcher, ...args]);
+    setLoading(true);
+    getList(resource)
+      .then(setData)
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, [resource]);
 
   return { data, loading, error };
 }

@@ -1,26 +1,38 @@
-import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import Navbar from './components/Navbar';
+import Dashboard from './components/Dashboard';
+import ProductList from './components/ProductList';
+import SupplierList from './components/SupplierList';
+import CustomerList from './components/CustomerList';
+import InventoryList from './components/InventoryList';
+import PurchaseList from './components/PurchaseList';
+import SaleList from './components/SaleList';
+import LogList from './components/LogList';
 
-const ProductList   = lazy(() => import("./components/ProductList"));
-const ProductDetail = lazy(() => import("./components/ProductDetail"));
-
-export default function App() {
+function App() {
   return (
-    <BrowserRouter>
-      <header>
-        <h1><Link to="/">Visionary Inventory</Link></h1>
-      </header>
-      <main className="container">
-        <Suspense fallback={<p>Loading...</p>}>
+    <div className="app-grid">
+      <Sidebar />
+      <div className="main-area">
+        <Navbar />
+        <div className="content">
           <Routes>
-            <Route path="/" element={<ProductList />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/products" element={<ProductList />} />
+            <Route path="/suppliers" element={<SupplierList />} />
+            <Route path="/customers" element={<CustomerList />} />
+            <Route path="/inventory" element={<InventoryList />} />
+            <Route path="/purchases" element={<PurchaseList />} />
+            <Route path="/sales" element={<SaleList />} />
+            <Route path="/logs" element={<LogList />} />
           </Routes>
-        </Suspense>
-      </main>
-      <footer>
-        © {new Date().getFullYear()} Visionary Inventory
-      </footer>
-    </BrowserRouter>
+        </div>
+      </div>
+    </div>
   );
 }
+
+export default App;

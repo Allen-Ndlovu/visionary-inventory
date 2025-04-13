@@ -1,27 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useFetch } from "../hooks/useFetch";
-import { fetchProducts } from "../services/api";
-import "./ProductList.css";
+import React from 'react';
+import useFetch from '../hooks/useFetch';
 
-export default React.memo(function ProductList() {
-  const { data: products, loading, error } = useFetch(fetchProducts);
+export default function ProductList() {
+  const { data, loading, error } = useFetch('products');
 
-  if (loading) return <p>Loading products...</p>;
-  if (error)   return <p style={{ color: "red" }}>Error loading products.</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error)   return <p>Error loading products</p>;
 
   return (
-    <div className="product-grid">
-      {products.map(p => (
-        <div className="product-card" key={p.id}>
-          <h2>{p.name}</h2>
-          <p><strong>Stock:</strong> {p.quantity_in_stock}</p>
-          <p><strong>Price:</strong> ${p.unit_price.toFixed(2)}</p>
-          <Link to={`/products/${p.id}`} className="details-button">
-            View Details
-          </Link>
-        </div>
-      ))}
+    <div className="list-page">
+      <h2>Products</h2>
+      <button className="btn">Add Product</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th><th>SKU</th><th>Price</th><th>Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map(p => (
+            <tr key={p.id}>
+              <td>{p.name}</td>
+              <td>{p.sku}</td>
+              <td>{p.unit_price}</td>
+              <td>{p.is_active ? 'Yes' : 'No'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-});
+}
