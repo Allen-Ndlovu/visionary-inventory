@@ -1,32 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { fetchCustomers } from '../services/api';
+import '../styles/customer.css';
 
-
-const CustomerList = () => {
-  const [customers, setCustomers] = useState([]);
-
+export default function CustomerList() {
+  const [items, setItems] = useState([]);
   useEffect(() => {
-    const loadCustomers = async () => {
-      const data = await fetchCustomers();
-      setCustomers(data);
-    };
-    loadCustomers();
+    fetchCustomers().then(setItems);
   }, []);
 
   return (
-    <div className="customer-list">
+    <div className="list-page">
       <h2>Customers</h2>
-      <ul>
-        {customers.map((customer) => (
-          <li key={customer.id}>
-            <p>{customer.name}</p>
-            <p>{customer.email}</p>
-            <p>{customer.phone}</p>
+      <ul className="item-list">
+        {items.map(c => (
+          <li key={c.id}>
+            <strong>{c.name}</strong><br/>
+            {c.email}<br/>
+            {c.phone}
           </li>
         ))}
       </ul>
     </div>
   );
-};
-
-export default CustomerList;
+}

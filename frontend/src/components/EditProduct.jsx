@@ -1,70 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { fetchProductById, updateProduct } from '../services/api';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { fetchProduct, updateProduct } from '../services/api';
+import '../styles/editProduct.css';
 
-
-const EditProduct = () => {
+export default function EditProduct() {
   const { id } = useParams();
-  const [product, setProduct] = useState({
-    name: '',
-    sku: '',
-    unit_price: '',
-    category_id: '',
-  });
+  const navigate = useNavigate();
+  const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    const loadProduct = async () => {
-      const data = await fetchProductById(id);
-      setProduct(data);
-    };
-    loadProduct();
+    fetchProduct(id).then(data => setProduct(data));
   }, [id]);
 
-  const handleChange = (e) => {
-    setProduct({
-      ...product,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setProduct(p => ({ ...p, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     await updateProduct(id, product);
-    alert('Product updated successfully!');
+    navigate('/products');
   };
+
+  if (!product) return <p>Loading…</p>;
 
   return (
     <div className="edit-product">
       <h2>Edit Product</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          value={product.name}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="sku"
-          value={product.sku}
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="unit_price"
-          value={product.unit_price}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="category_id"
-          value={product.category_id}
-          onChange={handleChange}
-        />
-        <button type="submit">Update Product</button>
+        <label>Name
+          <input name="name" value={product.name} onChange={handleChange} />
+        </label>
+        <label>SKU
+          <input name="sku" value={product.sku} onChange={handleChange} />
+        </label>
+        <label>Price
+          <input
+            name="unit_price"
+            type="number"
+            step="0.01"
+            value={product.unit_price}
+            onChange={handleChange}
+          />
+        </label>
+        <button type="submit">Save Changes</button>
       </form>
     </div>
   );
-};
-
-export default EditProduct;
+}

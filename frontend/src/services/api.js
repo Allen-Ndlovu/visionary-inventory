@@ -1,86 +1,83 @@
-import axios from 'axios';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
+async function request(path, options = {}) {
+  const res = await fetch(`${API_URL}${path}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+    ...options,
+  });
 
-
-const apiUrl = 'http://localhost:8000/api';
-
-export const fetchProducts = async () => {
-  try {
-    const response = await axios.get(`${apiUrl}/products`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching products', error);
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || res.statusText);
   }
-};
 
-export const fetchCategories = async () => {
-  try {
-    const response = await axios.get(`${apiUrl}/categories`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching categories', error);
-  }
-};
+  return res.json();
+}
 
-export const fetchTransactions = async () => {
-  try {
-    const response = await axios.get(`${apiUrl}/transactions`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching transactions', error);
-  }
-};
+// -----------------------------
+// Business Endpoints
+// -----------------------------
+export const fetchBusinesses = () => request('/businesses/');
 
-export const fetchSuppliers = async () => {
-  try {
-    const response = await axios.get(`${apiUrl}/suppliers`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching suppliers', error);
-  }
-};
+// -----------------------------
+// Category Endpoints
+// -----------------------------
+export const fetchCategories = () => request('/categories/');
 
-export const fetchCustomers = async () => {
-  try {
-    const response = await axios.get(`${apiUrl}/customers`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching customers', error);
-  }
-};
+// -----------------------------
+// Product Endpoints
+// -----------------------------
+export const fetchProducts = () => request('/products/');
+export const fetchProduct = (id) => request(`/products/${id}/`);
+export const createProduct = (data) =>
+  request('/products/', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+export const updateProduct = (id, data) =>
+  request(`/products/${id}/`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+export const deleteProduct = (id) =>
+  request(`/products/${id}/`, {
+    method: 'DELETE',
+  });
 
-export const fetchLocations = async () => {
-  try {
-    const response = await axios.get(`${apiUrl}/locations`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching locations', error);
-  }
-};
+// -----------------------------
+// Supplier Endpoints
+// -----------------------------
+export const fetchSuppliers = () => request('/suppliers/');
 
-export const addProduct = async (product) => {
-  try {
-    await axios.post(`${apiUrl}/products`, product);
-  } catch (error) {
-    console.error('Error adding product', error);
-  }
-};
+// -----------------------------
+// Customer Endpoints
+// -----------------------------
+export const fetchCustomers = () => request('/customers/');
 
-export const updateProduct = async (id, product) => {
-  try {
-    await axios.put(`${apiUrl}/products/${id}`, product);
-  } catch (error) {
-    console.error('Error updating product', error);
-  }
-};
+// -----------------------------
+// Location Endpoints
+// -----------------------------
+export const fetchLocations = () => request('/locations/');
 
-export const fetchProductById = async (id) => {
-  try {
-    const response = await axios.get(`${apiUrl}/products/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching product', error);
-  }
-};
+// -----------------------------
+// Inventory Endpoints
+// -----------------------------
+export const fetchInventory = () => request('/inventory/');
 
-export default apiUrl
+// -----------------------------
+// Purchase Endpoints
+// -----------------------------
+export const fetchPurchases = () => request('/purchases/');
+
+// -----------------------------
+// Sales Endpoints
+// -----------------------------
+export const fetchSales = () => request('/sales/');
+
+// -----------------------------
+// Transactions Endpoints
+// -----------------------------
+export const fetchTransactions = () => request('/transactions/');

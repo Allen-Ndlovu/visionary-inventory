@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { fetchCategories } from '../services/api';
+import '../styles/category.css';
 
-
-
-const CategoryList = () => {
+export default function CategoryList() {
   const [categories, setCategories] = useState([]);
-
   useEffect(() => {
-    const loadCategories = async () => {
-      const data = await fetchCategories();
-      setCategories(data);
-    };
-    loadCategories();
+    fetchCategories().then(data => setCategories(data || []));
   }, []);
 
   return (
     <div className="category-list">
       <h2>Categories</h2>
-      <ul>
-        {categories.map((category) => (
-          <li key={category.id}>
-            <p>{category.name}</p>
-          </li>
+      <div className="cards">
+        {categories.map(c => (
+          <div key={c.id} className="card">
+            <h3>{c.name}</h3>
+            <p>{c.description}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
-};
-
-export default CategoryList;
+}

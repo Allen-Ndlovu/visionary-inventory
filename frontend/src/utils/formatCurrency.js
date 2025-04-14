@@ -1,3 +1,5 @@
-export const formatCurrency = (amount) => {
-  return `$${parseFloat(amount).toFixed(2)}`;
-};
+export default function formatCurrency(value) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD'
+  }).format(value);
+}

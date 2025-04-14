@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { fetchLocations } from '../services/api';
+import '../styles/location.css';
 
-
-const LocationList = () => {
-  const [locations, setLocations] = useState([]);
-
+export default function LocationList() {
+  const [items, setItems] = useState([]);
   useEffect(() => {
-    const loadLocations = async () => {
-      const data = await fetchLocations();
-      setLocations(data);
-    };
-    loadLocations();
+    fetchLocations().then(setItems);
   }, []);
 
   return (
-    <div className="location-list">
+    <div className="list-page">
       <h2>Locations</h2>
-      <ul>
-        {locations.map((location) => (
-          <li key={location.id}>
-            <p>{location.name}</p>
-            <p>{location.address}</p>
+      <ul className="item-list">
+        {items.map(l => (
+          <li key={l.id}>
+            <strong>{l.name}</strong><br/>
+            {l.address}
           </li>
         ))}
       </ul>
     </div>
   );
-};
-
-export default LocationList;
+}

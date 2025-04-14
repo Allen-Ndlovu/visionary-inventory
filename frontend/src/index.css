@@ -1,16 +1,20 @@
-@import './styles/variables.css';
-@import "./styles/dashboard.css";
-
-* { margin:0; padding:0; box-sizing:border-box; }
+/* Reset & global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   font-family: var(--font);
-  color: var(--text);
-  background: var(--secondary);
+  background: var(--grey-light);
+  color: var(--grey-dark);
+  height: 100vh;
+  overflow: hidden;
 }
-a { text-decoration:none; color: inherit; }
-ul { list-style:none; }
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: var(--spacing);
+a {
+  text-decoration: none;
+  color: inherit;
+}
+ul {
+  list-style: none;
 }

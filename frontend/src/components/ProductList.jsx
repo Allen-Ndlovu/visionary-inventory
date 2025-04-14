@@ -1,65 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchProducts } from '../services/api';
-import './products.css'; // Ensure this file has the necessary styles
+import formatCurrency from '../utils/formatCurrency';
+import '../styles/product.css';
 
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-
+export default function ProductList() {
+  const [items, setItems] = useState([]);
   useEffect(() => {
-    fetchProducts().then(data => setProducts(data));  // Fetch data and set the state
+    fetchProducts().then(setItems);
   }, []);
 
-  // Handle search input changes
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  // Filter products based on search term
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
-    <div className="product-list-container">
-      <div className="product-list-header">
-        <h2>Product List</h2>
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search products..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
+    <div className="list-page">
+      <div className="list-header">
+        <h2>Products</h2>
+        <Link to="/products/add" className="btn">+ Add Product</Link>
       </div>
-
-      <table className="product-table">
+      <table className="data-table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Actions</th>
+            <th>ID</th><th>Name</th><th>SKU</th>
+            <th>Price</th><th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredProducts.map(product => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>{product.category}</td>
-              <td>${product.price.toFixed(2)}</td>
+          {items.map(p => (
+            <tr key={p.id}>
+              <td>{p.id}</td>
+              <td>{p.name}</td>
+              <td>{p.sku}</td>
+              <td>{formatCurrency(p.unit_price)}</td>
               <td>
-                <button className="button edit-btn">Edit</button>
-                <button className="button delete-btn">Delete</button>
+                <Link to={`/products/edit/${p.id}`} className="link-btn">
+                  Edit
+                </Link>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {/* Pagination could be implemented here */}
     </div>
   );
-};
-
-export default ProductList;
+}
