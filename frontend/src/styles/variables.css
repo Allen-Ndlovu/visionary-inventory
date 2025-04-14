@@ -1,9 +1,6 @@
 :root {
-  --primary:   #2c3e50;
-  --secondary: #ecf0f1;
-  --accent:    #3498db;
-  --text:      #333;
-  --radius:    4px;
-  --spacing:   16px;
-  --font:      'Segoe UI', sans-serif;
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --font-family: 'Arial', sans-serif;
+  --font-size: 16px;
 }

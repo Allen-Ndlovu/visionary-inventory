@@ -1,0 +1,16 @@
+.supplier-list {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.supplier-list ul {
+  list-style-type: none;
+}
+
+.supplier-list li {
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #fff;
+  border-radius: 5px;
+}

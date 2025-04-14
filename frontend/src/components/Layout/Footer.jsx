@@ -2,15 +2,9 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <footer style={{
-      background: 'var(--primary)',
-      color: 'white',
-      padding: 'var(--spacing)',
-      borderRadius: '0 0 var(--radius) var(--radius)',
-      marginTop: 'var(--spacing)'
-    }}>
+    <footer className="footer">
       <div className="container">
-        © {new Date().getFullYear()} Allen Ndlovu. All rights reserved.
+        © {new Date().getFullYear()} Visionary Inventory. All rights reserved.
       </div>
     </footer>
   );

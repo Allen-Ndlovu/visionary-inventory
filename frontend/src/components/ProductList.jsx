@@ -1,29 +1,32 @@
-import React from 'react';
-import useFetch from '../hooks/useFetch';
+import React, { useEffect, useState } from 'react';
+import { fetchProducts } from '../services/api';
 
-export default function ProductList() {
-  const { data, loading, error } = useFetch('/products');
 
-  if (loading) return <p>Loading products…</p>;
-  if (error)   return <p>Error loading products</p>;
+const ProductList = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      const data = await fetchProducts();
+      setProducts(data);
+    };
+    loadProducts();
+  }, []);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th><th>Name</th><th>SKU</th><th>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map(p => (
-          <tr key={p.id}>
-            <td>{p.id}</td>
-            <td>{p.name}</td>
-            <td>{p.sku}</td>
-            <td>{p.unit_price}</td>
-          </tr>
+    <div className="product-list">
+      <h2>Products</h2>
+      <ul>
+        {products.map((product) => (
+          <li key={product.id}>
+            <p>{product.name}</p>
+            <p>{product.sku}</p>
+            <p>{product.unit_price}</p>
+          </li>
         ))}
-      </tbody>
-    </table>
+      </ul>
+    </div>
   );
-}
+};
+
+export default ProductList;

@@ -1,28 +1,31 @@
-import React from 'react';
-import useFetch from '../hooks/useFetch';
+import React, { useEffect, useState } from 'react';
+import { fetchLocations } from '../services/api';
 
-export default function LocationList() {
-  const { data, loading, error } = useFetch('/locations');
 
-  if (loading) return <p>Loading locations…</p>;
-  if (error)   return <p>Error loading locations</p>;
+const LocationList = () => {
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    const loadLocations = async () => {
+      const data = await fetchLocations();
+      setLocations(data);
+    };
+    loadLocations();
+  }, []);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th><th>Name</th><th>Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map(l => (
-          <tr key={l.id}>
-            <td>{l.id}</td>
-            <td>{l.name}</td>
-            <td>{l.address}</td>
-          </tr>
+    <div className="location-list">
+      <h2>Locations</h2>
+      <ul>
+        {locations.map((location) => (
+          <li key={location.id}>
+            <p>{location.name}</p>
+            <p>{location.address}</p>
+          </li>
         ))}
-      </tbody>
-    </table>
+      </ul>
+    </div>
   );
-}
+};
+
+export default LocationList;

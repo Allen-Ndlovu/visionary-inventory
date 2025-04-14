@@ -1,0 +1,21 @@
+.dashboard {
+  font-family: var(--font-family);
+  padding: 20px;
+}
+
+.dashboard h1 {
+  color: var(--primary-color);
+}
+
+.dashboard-sections {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.dashboard-sections > div {
+  width: 30%;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}

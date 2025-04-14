@@ -1,28 +1,31 @@
-import React from 'react';
-import useFetch from '../hooks/useFetch';
+import React, { useEffect, useState } from 'react';
+import { fetchCategories } from '../services/api';
 
-export default function CategoryList() {
-  const { data, loading, error } = useFetch('/categories');
 
-  if (loading) return <p>Loading categories…</p>;
-  if (error)   return <p>Error loading categories</p>;
+
+const CategoryList = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      const data = await fetchCategories();
+      setCategories(data);
+    };
+    loadCategories();
+  }, []);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th><th>Name</th><th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map(c => (
-          <tr key={c.id}>
-            <td>{c.id}</td>
-            <td>{c.name}</td>
-            <td>{c.description}</td>
-          </tr>
+    <div className="category-list">
+      <h2>Categories</h2>
+      <ul>
+        {categories.map((category) => (
+          <li key={category.id}>
+            <p>{category.name}</p>
+          </li>
         ))}
-      </tbody>
-    </table>
+      </ul>
+    </div>
   );
-}
+};
+
+export default CategoryList;

@@ -6,7 +6,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <main className="container" style={{ marginTop: 'var(--spacing)' }}>
+      <main className="container">
         {children}
       </main>
       <Footer />

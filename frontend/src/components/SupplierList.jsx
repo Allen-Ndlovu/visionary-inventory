@@ -1,29 +1,31 @@
-import React from 'react';
-import useFetch from '../hooks/useFetch';
+import React, { useEffect, useState } from 'react';
+import { fetchSuppliers } from '../services/api';
 
-export default function SupplierList() {
-  const { data, loading, error } = useFetch('/suppliers');
 
-  if (loading) return <p>Loading suppliers…</p>;
-  if (error)   return <p>Error loading suppliers</p>;
+const SupplierList = () => {
+  const [suppliers, setSuppliers] = useState([]);
+
+  useEffect(() => {
+    const loadSuppliers = async () => {
+      const data = await fetchSuppliers();
+      setSuppliers(data);
+    };
+    loadSuppliers();
+  }, []);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th><th>Name</th><th>Contact</th><th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map(s => (
-          <tr key={s.id}>
-            <td>{s.id}</td>
-            <td>{s.name}</td>
-            <td>{s.contact}</td>
-            <td>{s.email}</td>
-          </tr>
+    <div className="supplier-list">
+      <h2>Suppliers</h2>
+      <ul>
+        {suppliers.map((supplier) => (
+          <li key={supplier.id}>
+            <p>{supplier.name}</p>
+            <p>{supplier.contact}</p>
+          </li>
         ))}
-      </tbody>
-    </table>
+      </ul>
+    </div>
   );
-}
+};
+
+export default SupplierList;
