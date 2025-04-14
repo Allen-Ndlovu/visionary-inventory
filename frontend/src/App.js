@@ -13,15 +13,16 @@ import TransactionHistory from './components/TransactionHistory';
 import AddProduct from './components/AddProduct';
 import EditProduct from './components/EditProduct';
 
-// Global & Component Styles
-import './styles/variables.css';
-import './styles/dashboard.css';
-import './styles/products.css';
-import './styles/supplier.css';
-import './styles/customer.css';
-import './styles/location.css';
-import './styles/addProduct.css';
-import './styles/editProduct.css';
+// Import global styles
+import './styles/variables.css';   // Variables like colors, fonts, etc.
+import './index.css';              // Global styles for the app
+import './styles/dashboard.css';   // Dashboard-specific styles
+import './styles/products.css';    // Product page-specific styles
+import './styles/editProduct.css'; // Category page-specific styles
+import './styles/addProduct.css';  // Transaction page-specific styles
+import './styles/supplier.css';    // Supplier page-specific styles
+import './styles/customer.css';    // Customer page-specific styles
+import './styles/location.css';    // Location page-specific styles
 
 export default function App() {
   return (

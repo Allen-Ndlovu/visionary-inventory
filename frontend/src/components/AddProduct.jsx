@@ -1,61 +1,39 @@
 import React, { useState } from 'react';
-import { addProduct } from '../services/api';
-
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
     name: '',
-    sku: '',
-    unit_price: '',
-    category_id: '',
+    category: '',
+    price: ''
   });
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setProduct({
       ...product,
-      [e.target.name]: e.target.value,
+      [name]: value
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await addProduct(product);
-    alert('Product added successfully!');
+    // Handle form submission
   };
 
   return (
-    <div className="add-product">
+    <div className="product-form">
       <h2>Add New Product</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Product Name"
-          value={product.name}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="sku"
-          placeholder="SKU"
-          value={product.sku}
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="unit_price"
-          placeholder="Unit Price"
-          value={product.unit_price}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="category_id"
-          placeholder="Category ID"
-          value={product.category_id}
-          onChange={handleChange}
-        />
-        <button type="submit">Add Product</button>
+        <label>Name</label>
+        <input type="text" name="name" value={product.name} onChange={handleChange} />
+
+        <label>Category</label>
+        <input type="text" name="category" value={product.category} onChange={handleChange} />
+
+        <label>Price</label>
+        <input type="number" name="price" value={product.price} onChange={handleChange} />
+
+        <button type="submit" className="button">Add Product</button>
       </form>
     </div>
   );

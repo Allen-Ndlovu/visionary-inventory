@@ -1,29 +1,29 @@
-.location-list {
+.transaction-history {
   padding: 20px;
 }
 
-.location-list h2 {
+.transaction-history h2 {
   margin-bottom: 20px;
   color: var(--primary-color);
 }
 
-.location-table {
+.transaction-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.location-table th,
-.location-table td {
+.transaction-table th,
+.transaction-table td {
   padding: 12px;
   border: 1px solid var(--border-color);
   text-align: left;
 }
 
-.location-table th {
+.transaction-table th {
   background-color: var(--primary-color);
   color: #fff;
 }
 
-.location-table tr:nth-child(even) {
+.transaction-table tr:nth-child(even) {
   background-color: #f9f9f9;
 }

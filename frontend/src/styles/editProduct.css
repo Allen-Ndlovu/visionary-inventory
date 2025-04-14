@@ -1,26 +1,39 @@
-.edit-product {
-  background-color: #f9f9f9;
+.product-form {
   padding: 20px;
-  border-radius: 5px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.edit-product form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.product-form h2 {
+  margin-bottom: 20px;
+  color: var(--primary-color);
 }
 
-.edit-product input {
+.product-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.product-form input,
+.product-form select,
+.product-form textarea {
+  width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
 }
 
-.edit-product button {
-  padding: 10px;
+.product-form .button {
   background-color: var(--primary-color);
-  color: white;
+  color: #fff;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
+}
+
+.product-form .button:hover {
+  background-color: var(--secondary-color);
 }
