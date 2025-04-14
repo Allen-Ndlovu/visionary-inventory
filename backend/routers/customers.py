@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from backend.app import crud, schemas, dependencies
 
@@ -10,11 +10,11 @@ def read_customers(skip: int = 0, limit: int = 100, db: Session = Depends(depend
 
 @router.get("/{customer_id}", response_model=schemas.Customer)
 def read_customer(customer_id: int, db: Session = Depends(dependencies.get_db)):
-    cust = crud.get_customer(db, customer_id)
-    if not cust:
+    c = crud.get_customer(db, customer_id)
+    if not c:
         raise HTTPException(status_code=404, detail="Customer not found")
-    return cust
+    return c
 
-@router.post("/", response_model=schemas.Customer)
+@router.post("/", response_model=schemas.Customer, status_code=status.HTTP_201_CREATED)
 def create_customer(customer: schemas.CustomerCreate, db: Session = Depends(dependencies.get_db)):
     return crud.create_customer(db, customer)

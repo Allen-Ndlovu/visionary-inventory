@@ -1,14 +1,21 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
+from enum import Enum
 
-# Business
+class TransactionType(str, Enum):
+    purchase = "purchase"
+    sale     = "sale"
+    adjust   = "adjust"
+
+# ── Business
 class BusinessBase(BaseModel):
     name: str
     description: Optional[str]
     industry_type: Optional[str]
 
-class BusinessCreate(BusinessBase): pass
+class BusinessCreate(BusinessBase):
+    pass
 
 class Business(BusinessBase):
     id: int
@@ -17,16 +24,15 @@ class Business(BusinessBase):
     class Config:
         from_attributes = True
 
-# User
+# ── User
 class UserBase(BaseModel):
     business_id: int
     username: str
     email: str
     role: str
-    is_active: Optional[bool] = True
 
 class UserCreate(UserBase):
-    password_hash: str
+    pass
 
 class User(UserBase):
     id: int
@@ -35,13 +41,14 @@ class User(UserBase):
     class Config:
         from_attributes = True
 
-# Category
+# ── Category
 class CategoryBase(BaseModel):
     business_id: int
     name: str
     description: Optional[str]
 
-class CategoryCreate(CategoryBase): pass
+class CategoryCreate(CategoryBase):
+    pass
 
 class Category(CategoryBase):
     id: int
@@ -49,19 +56,18 @@ class Category(CategoryBase):
     class Config:
         from_attributes = True
 
-# Product
+# ── Product
 class ProductBase(BaseModel):
     business_id: int
     category_id: Optional[int]
     name: str
-    description: Optional[str]
     sku: str
+    barcode: Optional[str]
     unit_price: float
     tax_rate: Optional[float] = 0.0
-    barcode: Optional[str]
-    is_active: Optional[bool] = True
 
-class ProductCreate(ProductBase): pass
+class ProductCreate(ProductBase):
+    pass
 
 class Product(ProductBase):
     id: int
@@ -70,16 +76,17 @@ class Product(ProductBase):
     class Config:
         from_attributes = True
 
-# Supplier
+# ── Supplier
 class SupplierBase(BaseModel):
     business_id: int
     name: str
-    contact_name: Optional[str]
+    contact: Optional[str]
     phone: Optional[str]
     email: Optional[str]
     address: Optional[str]
 
-class SupplierCreate(SupplierBase): pass
+class SupplierCreate(SupplierBase):
+    pass
 
 class Supplier(SupplierBase):
     id: int
@@ -87,7 +94,7 @@ class Supplier(SupplierBase):
     class Config:
         from_attributes = True
 
-# Customer
+# ── Customer
 class CustomerBase(BaseModel):
     business_id: int
     name: str
@@ -95,7 +102,8 @@ class CustomerBase(BaseModel):
     phone: Optional[str]
     address: Optional[str]
 
-class CustomerCreate(CustomerBase): pass
+class CustomerCreate(CustomerBase):
+    pass
 
 class Customer(CustomerBase):
     id: int
@@ -103,69 +111,35 @@ class Customer(CustomerBase):
     class Config:
         from_attributes = True
 
-# Inventory
-class InventoryBase(BaseModel):
-    product_id: int
-    quantity: int
-    min_stock_level: Optional[int] = 0
+# ── Location
+class LocationBase(BaseModel):
+    business_id: int
+    name: str
+    address: Optional[str]
 
-class InventoryCreate(InventoryBase): pass
+class LocationCreate(LocationBase):
+    pass
 
-class Inventory(InventoryBase):
+class Location(LocationBase):
     id: int
-    last_updated: datetime
 
     class Config:
         from_attributes = True
 
-# Purchase
-class PurchaseBase(BaseModel):
+# ── Inventory Transaction
+class InventoryTransactionBase(BaseModel):
     product_id: int
-    supplier_id: Optional[int]
+    location_id: Optional[int]
+    type: TransactionType
     quantity: int
-    purchase_price: float
+    unit_price: Optional[float]
 
-class PurchaseCreate(PurchaseBase): pass
+class InventoryTransactionCreate(InventoryTransactionBase):
+    pass
 
-class Purchase(PurchaseBase):
-    id: int
-    purchase_date: datetime
-
-    class Config:
-        from_attributes = True
-
-# Sale
-class SaleBase(BaseModel):
-    product_id: int
-    customer_id: Optional[int]
-    quantity: int
-    sale_price: float
-
-class SaleCreate(SaleBase): pass
-
-class Sale(SaleBase):
-    id: int
-    sale_date: datetime
-
-    class Config:
-        from_attributes = True
-
-# Log
-class LogBase(BaseModel):
-    user_id: Optional[int]
-    action: str
-    table_affected: Optional[str]
-    row_id: Optional[int]
-
-class LogCreate(LogBase): pass
-
-class Log(LogBase):
+class InventoryTransaction(InventoryTransactionBase):
     id: int
     timestamp: datetime
 
     class Config:
         from_attributes = True
-
-
-
-#Pydantic schemas for request validation and response models.

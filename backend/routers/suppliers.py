@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from backend.app import crud, schemas, dependencies
 
@@ -10,11 +10,11 @@ def read_suppliers(skip: int = 0, limit: int = 100, db: Session = Depends(depend
 
 @router.get("/{supplier_id}", response_model=schemas.Supplier)
 def read_supplier(supplier_id: int, db: Session = Depends(dependencies.get_db)):
-    sup = crud.get_supplier(db, supplier_id)
-    if not sup:
+    s = crud.get_supplier(db, supplier_id)
+    if not s:
         raise HTTPException(status_code=404, detail="Supplier not found")
-    return sup
+    return s
 
-@router.post("/", response_model=schemas.Supplier)
+@router.post("/", response_model=schemas.Supplier, status_code=status.HTTP_201_CREATED)
 def create_supplier(supplier: schemas.SupplierCreate, db: Session = Depends(dependencies.get_db)):
     return crud.create_supplier(db, supplier)

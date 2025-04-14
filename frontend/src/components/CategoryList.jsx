@@ -1,38 +1,28 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
 
-const CategoryList = () => {
-  const items = useFetch('/categories');
+export default function CategoryList() {
+  const { data, loading, error } = useFetch('/categories');
+
+  if (loading) return <p>Loading categories…</p>;
+  if (error)   return <p>Error loading categories</p>;
 
   return (
-    <div className="content">
-      <div className="page-container">
-        <div className="page-header">
-          <h2>Categories</h2>
-          <button className="btn btn-primary">New Category</button>
-        </div>
-        <div className="page-body table-responsive">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>ID</th><th>Name</th><th>Description</th><th>Business ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map(c => (
-                <tr key={c.id}>
-                  <td>{c.id}</td>
-                  <td>{c.name}</td>
-                  <td>{c.description}</td>
-                  <td>{c.business_id}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Name</th><th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map(c => (
+          <tr key={c.id}>
+            <td>{c.id}</td>
+            <td>{c.name}</td>
+            <td>{c.description}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
-};
-
-export default CategoryList;
+}
